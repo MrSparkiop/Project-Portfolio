@@ -1,46 +1,68 @@
-<%- include('../partials/header', { title: `${action.includes('PUT')?'Edit':'New'} ${type}`, user: true }) %>
-<h2><%= type %> Form</h2>
-<form action="<%= action %>" method="POST">
-  <% if (action.includes('_method=PUT')) { %>
-    <input type="hidden" name="_method" value="PUT">
-  <% } %>
+<%- include('../partials/header', { title: item.id ? 'Edit Project' : 'New Project' }) %>
 
-  <% if (type==='Project') { %>
-    <div class="mb-3">
-      <label class="form-label">Title</label>
-      <input name="title" class="form-control" value="<%= item.title||'' %>" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Description</label>
-      <textarea name="description" class="form-control" rows="4" required><%= item.description||'' %></textarea>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">URL</label>
-      <input name="url" class="form-control" value="<%= item.url||'' %>">
-    </div>
-  <% } else { /* Experience */ %>
-    <div class="mb-3">
-      <label class="form-label">Role</label>
-      <input name="role" class="form-control" value="<%= item.role||'' %>" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Company</label>
-      <input name="company" class="form-control" value="<%= item.company||'' %>" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Start Date</label>
-      <input type="date" name="startDate" class="form-control" value="<%= item.startDate||'' %>" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">End Date</label>
-      <input type="date" name="endDate" class="form-control" value="<%= item.endDate||'' %>">
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Description</label>
-      <textarea name="description" class="form-control" rows="4" required><%= item.description||'' %></textarea>
-    </div>
-  <% } %>
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg">
+    <h2 class="text-2xl font-heading font-semibold text-gray-800 mb-6">
+      <%= item.id ? 'Edit Project' : 'New Project' %>
+    </h2>
+    <form action="<%= action %>" method="POST" class="space-y-5">
+      <% /* Support PUT for edits */ %>
+      <% if (action.includes('_method=PUT')) { %>
+        <input type="hidden" name="_method" value="PUT">
+      <% } %>
 
-  <button class="btn btn-primary">Save</button>
-</form>
+      <!-- Title -->
+      <div>
+        <label for="title" class="block text-gray-700 mb-1">Title</label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          value="<%= item.title || '' %>"
+          required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary"
+        />
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label for="description" class="block text-gray-700 mb-1">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="4"
+          required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary"
+        ><%= item.description || '' %></textarea>
+      </div>
+
+      <!-- URL -->
+      <div>
+        <label for="url" class="block text-gray-700 mb-1">URL</label>
+        <input
+          id="url"
+          name="url"
+          type="url"
+          value="<%= item.url || '' %>"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary"
+        />
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end space-x-3 pt-4">
+        <a
+          href="/admin/projects"
+          class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+        >Cancel</a>
+        <button
+          type="submit"
+          class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-indigo-700 transition"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <%- include('../partials/footer') %>

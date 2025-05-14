@@ -29,7 +29,11 @@ router.get('/logout', (req, res) => {
 // --- Projects CRUD ---
 router.get('/projects', ensureAuth, async (req, res) => {
   const items = await Project.findAll();
-  res.render('admin/projects', { items, type: 'Project' });
+  res.render('admin/projects', {
+    items,
+    type: 'Project',
+    user: req.user   // pass the logged-in user into the template
+  });
 });
 
 router.get('/projects/new', ensureAuth, (req, res) => {

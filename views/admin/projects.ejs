@@ -1,33 +1,70 @@
-<%- include('../partials/header', { title: `Manage ${type}s`, user: true }) %>
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h2><%= type %>s</h2>
-  <a class="btn btn-success" href="/admin/<%= type.toLowerCase() %>s/new">New <%= type %></a>
+<%- include('../partials/header', { title: 'Manage Projects' }) %>
+
+<div class="py-8 bg-gray-50 min-h-screen">
+  <div class="max-w-4xl mx-auto px-4">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-heading font-semibold text-gray-800">Projects</h2>
+      <a
+        href="/admin/projects/new"
+        class="inline-block bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700 transition"
+      >
+        + New Project
+      </a>
+    </div>
+
+    <!-- Grid of project cards -->
+    <% if (items.length > 0) { %>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <% items.forEach(item => { %>
+          <div class="bg-white rounded-2xl shadow p-6 flex flex-col justify-between">
+            <div>
+              <h3 class="text-xl font-heading font-semibold text-gray-800 mb-2">
+                <%= item.title %>
+              </h3>
+              <p class="text-gray-600 mb-4">
+                <%= item.description.length > 100 
+                    ? item.description.slice(0,100) + '…' 
+                    : item.description %>
+              </p>
+            </div>
+            <div class="flex space-x-2">
+              <a
+                href="/admin/projects/<%= item.id %>/edit"
+                class="flex-1 text-center bg-secondary text-white px-3 py-1 rounded-lg hover:bg-secondary/90 transition"
+              >
+                Edit
+              </a>
+              <form
+                action="/admin/projects/<%= item.id %>?_method=DELETE"
+                method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this project?');"
+                class="flex-1"
+              >
+                <button
+                  type="submit"
+                  class="w-full bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition"
+                >
+                  Delete
+                </button>
+              </form>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <!-- Empty state -->
+      <div class="text-center py-16">
+        <p class="text-gray-500 mb-4">No projects yet.</p>
+        <a
+          href="/admin/projects/new"
+          class="inline-block bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700 transition"
+        >
+          Add Your First Project
+        </a>
+      </div>
+    <% } %>
+  </div>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th><%= type === 'Project' ? 'Title' : 'Role' %></th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% items.forEach(item => { %>
-      <tr>
-        <td><%= item.id %></td>
-        <td><%= type==='Project' ? item.title : item.role %></td>
-        <td>
-          <a class="btn btn-sm btn-primary" href="/admin/<%= type.toLowerCase() %>s/<%= item.id %>/edit">Edit</a>
-          <form
-            action="/admin/<%= type.toLowerCase() %>s/<%= item.id %>?_method=DELETE"
-            method="POST"
-            style="display:inline"
-          >
-            <button class="btn btn-sm btn-danger">Delete</button>
-          </form>
-        </td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+
 <%- include('../partials/footer') %>
