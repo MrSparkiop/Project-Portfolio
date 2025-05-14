@@ -1,0 +1,46 @@
+<%- include('../partials/header', { title: `${action.includes('PUT')?'Edit':'New'} ${type}`, user: true }) %>
+<h2><%= type %> Form</h2>
+<form action="<%= action %>" method="POST">
+  <% if (action.includes('_method=PUT')) { %>
+    <input type="hidden" name="_method" value="PUT">
+  <% } %>
+
+  <% if (type==='Project') { %>
+    <div class="mb-3">
+      <label class="form-label">Title</label>
+      <input name="title" class="form-control" value="<%= item.title||'' %>" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea name="description" class="form-control" rows="4" required><%= item.description||'' %></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">URL</label>
+      <input name="url" class="form-control" value="<%= item.url||'' %>">
+    </div>
+  <% } else { /* Experience */ %>
+    <div class="mb-3">
+      <label class="form-label">Role</label>
+      <input name="role" class="form-control" value="<%= item.role||'' %>" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Company</label>
+      <input name="company" class="form-control" value="<%= item.company||'' %>" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Start Date</label>
+      <input type="date" name="startDate" class="form-control" value="<%= item.startDate||'' %>" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">End Date</label>
+      <input type="date" name="endDate" class="form-control" value="<%= item.endDate||'' %>">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea name="description" class="form-control" rows="4" required><%= item.description||'' %></textarea>
+    </div>
+  <% } %>
+
+  <button class="btn btn-primary">Save</button>
+</form>
+<%- include('../partials/footer') %>

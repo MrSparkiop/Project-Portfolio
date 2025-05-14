@@ -1,0 +1,33 @@
+<%- include('../partials/header', { title: `Manage ${type}s`, user: true }) %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2><%= type %>s</h2>
+  <a class="btn btn-success" href="/admin/<%= type.toLowerCase() %>s/new">New <%= type %></a>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th><%= type === 'Project' ? 'Title' : 'Role' %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% items.forEach(item => { %>
+      <tr>
+        <td><%= item.id %></td>
+        <td><%= type==='Project' ? item.title : item.role %></td>
+        <td>
+          <a class="btn btn-sm btn-primary" href="/admin/<%= type.toLowerCase() %>s/<%= item.id %>/edit">Edit</a>
+          <form
+            action="/admin/<%= type.toLowerCase() %>s/<%= item.id %>?_method=DELETE"
+            method="POST"
+            style="display:inline"
+          >
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+<%- include('../partials/footer') %>

@@ -1,0 +1,30 @@
+<%- include('../partials/header', { title: 'Home', user: false }) %>
+<h1 class="mb-4">My Portfolio</h1>
+<section class="mb-5">
+  <h2>Projects</h2>
+  <div class="row">
+    <% projects.forEach(p => { %>
+      <div class="col-md-6 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><a href="<%= p.url %>"><%= p.title %></a></h5>
+            <p class="card-text"><%= p.description %></p>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+<section>
+  <h2>Experience</h2>
+  <ul class="list-group">
+    <% experiences.forEach(e => { %>
+      <li class="list-group-item">
+        <h5><%= e.role %> @ <%= e.company %></h5>
+        <small><%= e.startDate %> – <%= e.endDate || 'Present' %></small>
+        <p><%= e.description %></p>
+      </li>
+    <% }) %>
+  </ul>
+</section>
+<%- include('../partials/footer') %>
