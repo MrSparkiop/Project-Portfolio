@@ -1,21 +1,52 @@
 <%- include('../partials/header', { title: 'Home' }) %>
 
-<!-- Hero / intro -->
-<section class="text-center mb-16">
-  <h1 class="text-5xl font-heading font-bold text-indigo-700 mb-2">
-    Your Name
-  </h1>
-  <p class="text-lg text-gray-600">
-    A short bio that highlights your expertise and passions.
-  </p>
+<!-- Hero / About Section -->
+<section
+  id="hero"
+  class="flex flex-col-reverse md:flex-row items-center gap-8 py-16"
+>
+  <!-- Left: Text & Buttons -->
+  <div class="flex-1 text-center md:text-left space-y-6">
+    <h1 class="text-5xl md:text-6xl font-heading font-bold text-indigo-700">
+      Your Name
+    </h1>
+    <p class="text-lg text-gray-600">
+      Full-Stack Developer specializing in Node.js & Tailwind CSS.
+    </p>
+    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+      <!-- Download Résumé -->
+      <a
+        href="/resume.pdf"
+        download
+        class="inline-block bg-emerald-500 text-white px-6 py-3 rounded-lg shadow hover:bg-emerald-600 transition"
+      >
+        Download Résumé
+      </a>
+      <!-- Scroll to Projects -->
+      <a
+        href="#projects"
+        class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg shadow hover:bg-indigo-700 transition"
+      >
+        View Projects
+      </a>
+    </div>
+  </div>
+
+  <!-- Right: Profile Photo -->
+  <div class="flex-1 flex justify-center md:justify-end">
+    <img
+      src="/images/profile.jpg"
+      alt="Your Name"
+      class="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-lg"
+    />
+  </div>
 </section>
 
-<!-- Projects -->
-<section class="mb-16">
-  <h2 class="text-3xl font-heading font-semibold text-indigo-700 mb-6">
+<!-- Projects Section (with matching ID) -->
+<section id="projects" class="mb-16">
+  <h2 class="text-3xl font-heading font-semibold text-indigo-700 mb-6 text-center">
     Projects
   </h2>
-
   <div class="grid gap-8 md:grid-cols-2">
     <% projects.forEach(p => { %>
       <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
@@ -23,11 +54,10 @@
           <%= p.title %>
         </h3>
         <p class="text-gray-700 mb-5"><%= p.description %></p>
-
         <% if (p.url) { %>
           <a
             href="<%= p.url %>"
-            class="inline-block bg-emerald-500 text-white px-4 py-2 rounded-lg shadow hover:bg-emerald-600 transition"
+            class="inline-block bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition"
           >
             View Project
           </a>
@@ -37,13 +67,12 @@
   </div>
 </section>
 
-<!-- Experience -->
+<!-- Experience Section -->
 <section class="mb-20">
-  <h2 class="text-3xl font-heading font-semibold text-indigo-700 mb-6">
+  <h2 class="text-3xl font-heading font-semibold text-indigo-700 mb-6 text-center">
     Experience
   </h2>
-
-  <ul class="space-y-8">
+  <ul class="space-y-8 max-w-3xl mx-auto">
     <% experiences.forEach(e => { %>
       <li class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
         <div class="flex justify-between items-center mb-2">
