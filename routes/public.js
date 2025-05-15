@@ -1,18 +1,20 @@
+// routes/public.js
 const express = require('express');
 const router = express.Router();
-const { Project, Experience } = require('../models');
+const { Project, Experience, Skill } = require('../models');
 
-// Home page: list projects & experience
+// Home page: list projects, experiences, and skills
 router.get('/', async (req, res) => {
   try {
-    const [projects, experiences] = await Promise.all([
+    const [projects, experiences, skills] = await Promise.all([
       Project.findAll(),
-      Experience.findAll({ order: [['startDate', 'DESC']] })
+      Experience.findAll({ order: [['startDate', 'DESC']] }),
+      Skill.findAll({ order: [['level', 'DESC']] })
     ]);
-    res.render('public/index', { projects, experiences });
+    res.render('public/index', { projects, experiences, skills });
   } catch (err) {
-    console.error("Error loading home:", err);
-    res.status(500).send("Server Error");
+    console.error('Error loading home:', err);
+    res.status(500).send('Server Error');
   }
 });
 
@@ -20,14 +22,11 @@ router.get('/', async (req, res) => {
 router.get('/projects/:id', async (req, res) => {
   try {
     const project = await Project.findByPk(req.params.id);
-    if (!project) {
-      // If no such project, redirect back home
-      return res.redirect('/');
-    }
+    if (!project) return res.redirect('/');
     res.render('public/project', { project });
   } catch (err) {
-    console.error("Error loading project detail:", err);
-    res.status(500).send("Server Error");
+    console.error('Error loading project detail:', err);
+    res.status(500).send('Server Error');
   }
 });
 

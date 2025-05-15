@@ -1,6 +1,7 @@
-const sequelize = require('../config/database');
-const Project = require('./Project');
-const Experience = require('./Experience');
+// models/index.js
+const sequelize   = require('../config/database');
+const Project     = require('./Project');
+const Experience  = require('./Experience');
+const Skill       = require('./Skill');
 
-// Export your models and sequelize instance
-module.exports = { sequelize, Project, Experience };
+module.exports = { sequelize, Project, Experience, Skill };

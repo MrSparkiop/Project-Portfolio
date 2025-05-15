@@ -1,37 +1,57 @@
-<%- include('../partials/header', { title: 'Projects' }) %>
+<%- include('../partials/header', { title: `Manage ${type}s` }) %>
 
 <div class="py-8 bg-gray-50 min-h-screen">
   <div class="max-w-4xl mx-auto px-4">
+    <!-- Page header -->
     <div class="flex justify-between items-center mb-6">
-      <h2 class="text-3xl font-heading font-semibold text-indigo-700">Projects</h2>
-
-      <!-- bright New-project button -->
-      <a href="/secret-admin-123/projects/new"
-         class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700 transition">
-        + New Project
+      <h2 class="text-3xl font-heading font-semibold text-indigo-700"><%= type %>s</h2>
+      <a
+        href="/secret-admin-123/<%= type.toLowerCase() %>s/new"
+        class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700 transition"
+      >
+        + New <%= type %>
       </a>
     </div>
 
     <% if (items.length) { %>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <% items.forEach(p => { %>
-          <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition flex flex-col justify-between">
-            <div>
-              <h3 class="text-xl font-heading font-semibold text-indigo-600 mb-2"><%= p.title %></h3>
-              <p class="text-gray-700 mb-4"><%= p.description.length>100? p.description.slice(0,100)+'…' : p.description %></p>
-            </div>
+        <% items.forEach(item => { %>
+          <div class="bg-white rounded-xl shadow p-6 flex flex-col justify-between hover:shadow-lg transition">
+            <!-- Title / Role -->
+            <h3 class="text-xl font-heading font-semibold mb-2 text-indigo-600">
+              <%= type === 'Project' ? item.title : item.role %>
+            </h3>
 
+            <!-- Project description or Experience company & dates -->
+            <p class="text-gray-700 mb-4">
+              <% if (type === 'Project') { %>
+                <%= item.description.length > 100 
+                      ? item.description.slice(0,100) + '…' 
+                      : item.description %>
+              <% } else { %>
+                <span class="font-medium"><%= item.company %></span> •
+                <%= item.startDate %> – <%= item.endDate || 'Present' %>
+              <% } %>
+            </p>
+
+            <!-- Actions -->
             <div class="flex space-x-2">
-              <!-- Edit -->
-              <a href="/secret-admin-123/projects/<%= p.id %>/edit"
-                 class="flex-1 text-center bg-emerald-500 text-white py-1 rounded-lg hover:bg-emerald-600 transition">
+              <a
+                href="/secret-admin-123/<%= type.toLowerCase() %>s/<%= item.id %>/edit"
+                class="flex-1 text-center bg-emerald-500 text-white py-2 rounded-lg hover:bg-emerald-600 transition"
+              >
                 Edit
               </a>
-              <!-- Delete -->
-              <form action="/secret-admin-123/projects/<%= p.id %>?_method=DELETE"
-                    method="POST" onsubmit="return confirm('Delete this project?');" class="flex-1">
-                <button type="submit"
-                        class="w-full bg-rose-500 text-white py-1 rounded-lg hover:bg-rose-600 transition">
+              <form
+                action="/secret-admin-123/<%= type.toLowerCase() %>s/<%= item.id %>?_method=DELETE"
+                method="POST"
+                onsubmit="return confirm('Delete this <%= type.toLowerCase() %>?');"
+                class="flex-1"
+              >
+                <button
+                  type="submit"
+                  class="w-full bg-rose-500 text-white py-2 rounded-lg hover:bg-rose-600 transition"
+                >
                   Delete
                 </button>
               </form>
@@ -41,10 +61,12 @@
       </div>
     <% } else { %>
       <div class="text-center py-16">
-        <p class="text-gray-500 mb-4">No projects yet.</p>
-        <a href="/secret-admin-123/projects/new"
-           class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700 transition">
-          Add Your First Project
+        <p class="text-gray-500 mb-4">No <%= type.toLowerCase() %>s yet.</p>
+        <a
+          href="/secret-admin-123/<%= type.toLowerCase() %>s/new"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700 transition"
+        >
+          Add Your First <%= type %>
         </a>
       </div>
     <% } %>

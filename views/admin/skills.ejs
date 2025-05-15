@@ -1,0 +1,60 @@
+<%- include('../partials/header', { title: `Manage Skills` }) %>
+
+<div class="py-8 bg-gray-50 min-h-screen">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-heading font-semibold text-indigo-700">Skills</h2>
+      <a
+        href="/secret-admin-123/skills/new"
+        class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700 transition"
+      >
+        + New Skill
+      </a>
+    </div>
+
+    <% if (items.length) { %>
+      <table class="w-full bg-white rounded-lg shadow overflow-hidden">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="p-3 text-left">Name</th>
+            <th class="p-3 text-left">Level</th>
+            <th class="p-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach(skill => { %>
+            <tr class="border-t">
+              <td class="p-3 text-gray-800"><%= skill.name %></td>
+              <td class="p-3 text-gray-800"><%= skill.level %>%</td>
+              <td class="p-3 space-x-2">
+                <a
+                  href="/secret-admin-123/skills/<%= skill.id %>/edit"
+                  class="px-3 py-1 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition"
+                >
+                  Edit
+                </a>
+                <form
+                  action="/secret-admin-123/skills/<%= skill.id %>?_method=DELETE"
+                  method="POST"
+                  class="inline"
+                  onsubmit="return confirm('Delete this skill?');"
+                >
+                  <button
+                    type="submit"
+                    class="px-3 py-1 bg-rose-500 text-white rounded-lg hover:bg-rose-600 transition"
+                  >
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p class="text-center text-gray-500">No skills added yet.</p>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

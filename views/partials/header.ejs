@@ -1,40 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title><%= title %> | MyPortfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> | My Portfolio</title>
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&display=swap"
     rel="stylesheet"
   />
 
-  <!-- Tailwind CDN -->
+  <!-- Tailwind via CDN (no build step) -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#4F46E5",
+            secondary: "#374151",
+            accent: "#EC4899"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            heading: ["Poppins", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
 </head>
 
 <body class="bg-gray-50 text-gray-900 font-sans">
-  <!-- Navbar -->
-  <nav class="bg-white shadow-sm">
+  <nav class="bg-white shadow-md">
     <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
       <!-- Brand -->
-      <a href="/" class="text-2xl font-heading text-indigo-600 hover:text-indigo-500 transition">
+      <a href="/" class="text-2xl font-heading text-primary hover:text-secondary transition">
         MyPortfolio
       </a>
 
-      <!-- Show only when logged in -->
+      <!-- Only show these when logged in -->
       <% if (user) { %>
-        <div class="space-x-4">
+        <div class="space-x-6 flex items-center">
           <a href="/secret-admin-123/projects"
-             class="text-gray-700 hover:text-indigo-600 transition">
-            Admin
+             class="text-secondary hover:text-primary transition">
+            Projects
+          </a>
+          <a href="/secret-admin-123/experiences"
+             class="text-secondary hover:text-primary transition">
+            Experience
+          </a>
+          <a href="/secret-admin-123/skills"
+             class="text-secondary hover:text-primary transition">
+            Skills
           </a>
           <a href="/secret-admin-123/logout"
-             class="px-3 py-1 bg-rose-500 text-white rounded-lg shadow hover:bg-rose-600 transition">
+             class="px-3 py-1 bg-accent text-white rounded-lg shadow hover:bg-accent/90 transition">
             Logout
           </a>
         </div>
@@ -42,5 +66,4 @@
     </div>
   </nav>
 
-  <!-- Main wrapper -->
   <main class="max-w-4xl mx-auto px-6 py-8">
