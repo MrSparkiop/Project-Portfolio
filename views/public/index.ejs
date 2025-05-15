@@ -1,4 +1,4 @@
-<%- include('../partials/header', { title: 'Home', user: false }) %>
+<%- include('../partials/header', { title: 'Home', user: user }) %>
 
 <section class="text-center mb-12">
   <h1 class="text-4xl font-heading font-bold mb-2">Your Name</h1>
@@ -9,12 +9,12 @@
   <h2 class="text-2xl font-heading font-semibold mb-4 text-primary">Projects</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <% projects.forEach(p => { %>
-    <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition">
-      <h3 class="text-xl font-heading font-semibold mb-1">
-        <a href="<%= p.url %>" class="hover:text-primary"><%= p.title %></a>
-      </h3>
-      <p class="text-gray-700"><%= p.description %></p>
-    </div>
+      <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition">
+        <h3 class="text-xl font-heading font-semibold mb-1">
+          <a href="<%= p.url %>" class="hover:text-primary"><%= p.title %></a>
+        </h3>
+        <p class="text-gray-700"><%= p.description %></p>
+      </div>
     <% }) %>
   </div>
 </section>
@@ -23,16 +23,16 @@
   <h2 class="text-2xl font-heading font-semibold mb-4 text-primary">Experience</h2>
   <ul class="space-y-4">
     <% experiences.forEach(e => { %>
-    <li class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition">
-      <div class="flex justify-between items-center mb-2">
-        <h3 class="text-lg font-heading font-semibold"><%= e.role %></h3>
-        <span class="text-gray-500 text-sm">
-          <%= e.startDate %> – <%= e.endDate || 'Present' %>
-        </span>
-      </div>
-      <p class="text-gray-700"><%= e.description %></p>
-      <div class="mt-2 text-sm text-secondary">@ <%= e.company %></div>
-    </li>
+      <li class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition">
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-lg font-heading font-semibold"><%= e.role %></h3>
+          <span class="text-gray-500 text-sm">
+            <%= e.startDate %> – <%= e.endDate || 'Present' %>
+          </span>
+        </div>
+        <p class="text-gray-700"><%= e.description %></p>
+        <div class="mt-2 text-sm text-secondary">@ <%= e.company %></div>
+      </li>
     <% }) %>
   </ul>
 </section>
