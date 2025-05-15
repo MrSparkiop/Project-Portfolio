@@ -1,51 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta   name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= title %> | My Portfolio</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %> | MyPortfolio</title>
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&display=swap"
     rel="stylesheet"
   />
 
-  <!-- Tailwind via CDN (no build step) -->
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#4F46E5",
-            secondary: "#374151",
-          },
-          fontFamily: {
-            sans: ["Inter", "sans-serif"],
-            heading: ["Poppins", "sans-serif"],
-          },
-        },
-      },
-    };
-  </script>
 </head>
 
 <body class="bg-gray-50 text-gray-900 font-sans">
-  <nav class="bg-white shadow-md">
+  <!-- Navbar -->
+  <nav class="bg-white shadow-sm">
     <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="/" class="text-2xl font-heading text-primary">MyPortfolio</a>
-      <div class="space-x-4">
-        <% if (user) { %>
-          <a href="/admin/projects" class="text-secondary hover:text-primary">Admin</a>
-          <a href="/admin/logout" class="text-secondary hover:text-primary">Logout</a>
-        <% } else { %>
-          <a href="/admin/login" class="text-secondary hover:text-primary">Login</a>
-        <% } %>
-      </div>
+      <!-- Brand -->
+      <a href="/" class="text-2xl font-heading text-indigo-600 hover:text-indigo-500 transition">
+        MyPortfolio
+      </a>
+
+      <!-- Show only when logged in -->
+      <% if (user) { %>
+        <div class="space-x-4">
+          <a href="/secret-admin-123/projects"
+             class="text-gray-700 hover:text-indigo-600 transition">
+            Admin
+          </a>
+          <a href="/secret-admin-123/logout"
+             class="px-3 py-1 bg-rose-500 text-white rounded-lg shadow hover:bg-rose-600 transition">
+            Logout
+          </a>
+        </div>
+      <% } %>
     </div>
   </nav>
 
+  <!-- Main wrapper -->
   <main class="max-w-4xl mx-auto px-6 py-8">

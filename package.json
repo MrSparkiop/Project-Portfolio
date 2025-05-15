@@ -4,11 +4,9 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js",
-    "build:css": "tailwindcss -i ./public/css/tailwind.css -o ./public/css/styles.css --watch"
+    "start": "node server.js"
   },
   "description": "A custom Node.js + Express CV/portfolio with admin panel",
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -23,9 +21,6 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "nodemon": "^3.1.10",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.6"
+    "nodemon": "^3.1.10"
   }
 }

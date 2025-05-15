@@ -1,8 +1,7 @@
-// server.js (in your project root)
 const express = require('express');
 const session = require('express-session');
-const methodOverride = require('method-override');
 const passport = require('./config/passport');
+const methodOverride = require('method-override');
 const { sequelize } = require('./models');
 const adminRoutes = require('./routes/admin');
 const publicRoutes = require('./routes/public');
@@ -20,13 +19,20 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// expose user to all templates
 app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
 });
 
-app.use('/admin', adminRoutes);
+// static assets
+app.use(express.static('public'));
+
+// public pages
 app.use('/', publicRoutes);
+
+// **secret** admin path
+app.use('/secret-admin-123', adminRoutes);
 
 (async () => {
   await sequelize.sync();
