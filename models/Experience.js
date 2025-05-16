@@ -1,27 +1,29 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+// models/Experience.js
+const mongoose = require('mongoose');
 
-const Experience = sequelize.define('Experience', {
+const experienceSchema = new mongoose.Schema({
   role: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   company: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   startDate: {
-    type: DataTypes.DATEONLY,
-    allowNull: false
+    type: Date,
+    required: true
   },
   endDate: {
-    type: DataTypes.DATEONLY,
-    allowNull: true
+    type: Date,
+    default: null
   },
   description: {
-    type: DataTypes.TEXT,
-    allowNull: false
+    type: String,
+    required: true
   }
+}, {
+  timestamps: true
 });
 
-module.exports = Experience;
+module.exports = mongoose.model('Experience', experienceSchema);

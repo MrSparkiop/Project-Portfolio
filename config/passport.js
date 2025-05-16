@@ -1,28 +1,40 @@
-const passport = require('passport');
+// config/passport.js
 const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
+const User          = require('../models/User');
 
-// *** Change this password to something strong! ***
-const ADMIN = {
-  id: 1,
-  username: 'admin',
-  passwordHash: bcrypt.hashSync('ChangeMe123!', 10)
+module.exports = function(passport) {
+  passport.use(new LocalStrategy(async (username, password, done) => {
+    try {
+      // Find user by username
+      const user = await User.findOne({ username });
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+
+      // Verify password
+      const isValid = await user.verifyPassword(password);
+      if (!isValid) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+
+      // Success
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
+  }));
+
+  // Serialize & deserialize for session support
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  });
 };
-
-passport.use(new LocalStrategy((username, password, done) => {
-  if (username !== ADMIN.username) {
-    return done(null, false, { message: 'Incorrect username.' });
-  }
-  if (!bcrypt.compareSync(password, ADMIN.passwordHash)) {
-    return done(null, false, { message: 'Incorrect password.' });
-  }
-  return done(null, ADMIN);
-}));
-
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => {
-  if (id === ADMIN.id) return done(null, ADMIN);
-  return done(new Error('User not found'));
-});
-
-module.exports = passport;

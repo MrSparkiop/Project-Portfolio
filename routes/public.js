@@ -1,15 +1,18 @@
 // routes/public.js
 const express = require('express');
 const router = express.Router();
-const { Project, Experience, Skill } = require('../models');
+
+const Project    = require('../models/Project');
+const Experience = require('../models/Experience');
+const Skill      = require('../models/Skill');
 
 // Home page: list projects, experiences, and skills
 router.get('/', async (req, res) => {
   try {
     const [projects, experiences, skills] = await Promise.all([
-      Project.findAll(),
-      Experience.findAll({ order: [['startDate', 'DESC']] }),
-      Skill.findAll({ order: [['level', 'DESC']] })
+      Project.find().sort({ createdAt: -1 }),
+      Experience.find().sort({ startDate: -1 }),
+      Skill.find().sort({ level: -1 })
     ]);
     res.render('public/index', { projects, experiences, skills });
   } catch (err) {
@@ -21,7 +24,7 @@ router.get('/', async (req, res) => {
 // Project detail page
 router.get('/projects/:id', async (req, res) => {
   try {
-    const project = await Project.findByPk(req.params.id);
+    const project = await Project.findById(req.params.id);
     if (!project) return res.redirect('/');
     res.render('public/project', { project });
   } catch (err) {

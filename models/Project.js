@@ -1,19 +1,21 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+// models/Project.js
+const mongoose = require('mongoose');
 
-const Project = sequelize.define('Project', {
+const projectSchema = new mongoose.Schema({
   title: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   description: {
-    type: DataTypes.TEXT,
-    allowNull: false
+    type: String,
+    required: true
   },
   url: {
-    type: DataTypes.STRING,
-    allowNull: true
+    type: String,
+    default: ''
   }
+}, {
+  timestamps: true
 });
 
-module.exports = Project;
+module.exports = mongoose.model('Project', projectSchema);
