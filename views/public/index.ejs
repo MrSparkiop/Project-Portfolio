@@ -1,112 +1,189 @@
-<%- include('../partials/header', { title: 'Home' }) %>
+<%- include('../partials/header', { title: 'Home', includeAOS: true }) %>
 
-<!-- Hero / About Section -->
+<!-- HERO -->
 <section
   id="hero"
-  class="flex flex-col-reverse md:flex-row items-center gap-8 py-16"
+  class="bg-hero bg-cover bg-center min-h-[70vh] flex items-center relative"
+  data-aos="fade-up"
 >
-  <!-- Text & Buttons -->
-  <div class="flex-1 text-center md:text-left space-y-6">
-    <h1 class="text-5xl md:text-6xl font-heading font-bold text-indigo-700">
-      Your Name
-    </h1>
-    <p class="text-lg text-gray-600">
-      Full-Stack Developer specializing in Node.js & Tailwind CSS.
-    </p>
-    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-      <a
-        href="/resume.pdf"
-        download
-        class="bg-emerald-500 text-white px-6 py-3 rounded-lg shadow hover:bg-emerald-600 transition"
-      >
-        Download Résumé
-      </a>
-      <a
-        href="#projects"
-        class="bg-indigo-600 text-white px-6 py-3 rounded-lg shadow hover:bg-indigo-700 transition"
-      >
-        View Projects
-      </a>
-    </div>
-  </div>
+  <!-- soft gradient overlay -->
+  <div class="absolute inset-0 bg-gradient-to-br from-white/95 via-softy/60 to-softy pointer-events-none"></div>
 
-  <!-- Profile Photo -->
-  <div class="flex-1 flex justify-center md:justify-end">
-    <img
-      src="/images/profile.jpg"
-      alt="Your Name"
-      class="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-lg"
-    />
-  </div>
-</section>
-
-<!-- Skills & Tech Stack (dynamic from DB) -->
-<section id="skills" class="mb-16">
-  <h2 class="text-3xl font-heading font-semibold text-indigo-700 mb-8 text-center">
-    Skills & Tech Stack
-  </h2>
-
-  <div class="space-y-6 max-w-xl mx-auto mb-12">
-    <% skills.forEach(s => { %>
-      <div>
-        <div class="flex justify-between mb-1">
-          <span class="font-medium text-gray-800"><%= s.name %></span>
-          <span class="text-gray-600"><%= s.level %>%</span>
-        </div>
-        <div class="w-full bg-gray-200 rounded-full h-4">
-          <div
-            class="bg-emerald-500 h-4 rounded-full"
-            style="width:<%= s.level %>%"
-          ></div>
-        </div>
-      </div>
-    <% }) %>
-  </div>
-</section>
-
-<!-- Projects Section -->
-<section id="projects" class="mb-16">
-  <h2 class="text-3xl font-heading font-semibold text-indigo-700 mb-6 text-center">
-    Projects
-  </h2>
-  <div class="grid gap-8 md:grid-cols-2">
-    <% projects.forEach(p => { %>
-      <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
-        <h3 class="text-2xl font-heading font-semibold text-indigo-600 mb-3">
-          <%= p.title %>
-        </h3>
-        <p class="text-gray-700 mb-5"><%= p.description %></p>
+  <div class="relative max-w-6xl mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <!-- Text Column -->
+    <div data-aos="fade-up">
+      <h1 class="text-5xl md:text-6xl font-bold text-darknav mb-2">
+        <%= settings.siteTitle %>
+      </h1>
+      <h2 class="text-3xl font-semibold text-graymuted mb-4">
+        <%= settings.heroSubtitle %>
+      </h2>
+      <div class="flex flex-wrap gap-4">
         <a
-          href="/projects/<%= p.id %>"
-          class="inline-block bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition"
+          href="#projects"
+          class="inline-flex items-center px-6 py-3 bg-darknav text-white rounded hover:bg-gray-800 transition"
         >
-          View Project
+          Explore My Work
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a
+          href="#contact"
+          class="px-6 py-3 border-2 border-darknav text-darknav rounded hover:bg-darknav hover:text-white transition"
+        >
+          Contact Me
         </a>
       </div>
-    <% }) %>
+    </div>
+    <!-- Profile Image -->
+    <div class="flex justify-center md:justify-end" data-aos="zoom-in" data-aos-delay="200">
+      <img
+        src="/images/profile.jpg"
+        alt="Profile"
+        class="w-56 h-56 md:w-64 md:h-64 rounded-full object-cover ring-4 ring-accent shadow-lg"
+      />
+    </div>
   </div>
 </section>
 
-<!-- Experience Section -->
-<section class="mb-20">
-  <h2 class="text-3xl font-heading font-semibold text-indigo-700 mb-6 text-center">
+<!-- SKILLS & TECH STACK -->
+<section id="skills" class="py-16 bg-gray-50" data-aos="fade-up" data-aos-delay="100">
+  <h2 class="text-3xl font-semibold text-indigo-600 text-center mb-8">
+    Skills & Tech Stack
+  </h2>
+  <div class="max-w-xl mx-auto space-y-6">
+    <% if (skills.length) { %>
+      <% skills.forEach((s, i) => { %>
+        <div data-aos="fade-right" data-aos-delay="<%= i * 100 %>">
+          <div class="flex justify-between mb-1">
+            <span class="font-medium text-gray-800"><%= s.name %></span>
+            <span class="text-gray-600"><%= s.level %>%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-4">
+            <div
+              class="bg-indigo-600 h-4 rounded-full transition-all duration-800"
+              style="width:<%= s.level %>%"
+            ></div>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p class="text-center text-gray-500">No skills added yet.</p>
+    <% } %>
+  </div>
+</section>
+
+<!-- FEATURED PROJECTS -->
+<section id="projects" class="py-16" data-aos="fade-up" data-aos-delay="200">
+  <h2 class="text-3xl font-semibold text-indigo-600 text-center mb-8">
+    Featured Projects
+  </h2>
+  <div class="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+    <% if (projects.length) { %>
+      <% projects.forEach((p, i) => { %>
+        <div
+          class="bg-white rounded-xl shadow p-6 hover:shadow-lg transform hover:scale-105 transition"
+          data-aos="fade-up"
+          data-aos-delay="<%= i * 150 %>"
+        >
+          <h3 class="text-2xl font-semibold text-indigo-600 mb-3"><%= p.title %></h3>
+          <p class="text-gray-700 mb-5"><%= p.description %></p>
+          <a
+            href="/projects/<%= p.id %>"
+            class="inline-block bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition"
+          >
+            View Project
+          </a>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p class="text-center text-gray-500 col-span-2">No projects yet.</p>
+    <% } %>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="py-16 bg-gray-50" data-aos="fade-up" data-aos-delay="300">
+  <h2 class="text-3xl font-semibold text-indigo-600 text-center mb-8">
     Experience
   </h2>
   <ul class="space-y-8 max-w-3xl mx-auto">
-    <% experiences.forEach(e => { %>
-      <li class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
-        <div class="flex justify-between items-center mb-2">
-          <h3 class="text-xl font-heading font-semibold text-indigo-600">
-            <%= e.role %> @ <%= e.company %>
-          </h3>
-          <span class="text-gray-500 text-sm">
-            <%= e.startDate %> – <%= e.endDate || 'Present' %>
-          </span>
-        </div>
-        <p class="text-gray-700"><%= e.description %></p>
-      </li>
-    <% }) %>
+    <% if (experiences.length) { %>
+      <% experiences.forEach((e, i) => { %>
+        <li
+          class="bg-white rounded-xl shadow p-6 hover:shadow-lg transform hover:scale-105 transition"
+          data-aos="fade-up"
+          data-aos-delay="<%= i * 200 %>"
+        >
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-xl font-semibold text-indigo-600">
+              <%= e.role %> @ <%= e.company %>
+            </h3>
+            <span class="text-gray-500 text-sm">
+              <%= new Date(e.startDate).toLocaleDateString() %> –
+              <%= e.endDate ? new Date(e.endDate).toLocaleDateString() : 'Present' %>
+            </span>
+          </div>
+          <p class="text-gray-700"><%= e.description %></p>
+        </li>
+      <% }) %>
+    <% } else { %>
+      <p class="text-center text-gray-500">No experience entries yet.</p>
+    <% } %>
   </ul>
+</section>
+
+<!-- SOCIAL PILLS -->
+<section class="py-8">
+  <div class="max-w-6xl mx-auto px-4 md:px-6 flex justify-center gap-4">
+    <% (settings.socialLinks || []).forEach(s => { %>
+      <a
+        href="<%= s.url %>"
+        target="_blank"
+        class="flex items-center space-x-3 border-2 border-indigo-600 px-4 py-2 rounded-full hover:bg-indigo-600 hover:text-white transition"
+      >
+        <img src="<%= s.icon %>" alt="" class="w-5 h-5"/>
+        <span><%= s.label %></span>
+      </a>
+    <% }) %>
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section id="contact" class="py-16 bg-white" data-aos="fade-up" data-aos-delay="100">
+  <div class="max-w-md mx-auto px-4 md:px-6 bg-gray-50 p-8 rounded-lg shadow">
+    <h2 class="text-2xl font-semibold text-darknav mb-4 text-center">Get In Touch</h2>
+    <form action="/contact" method="POST" class="space-y-4">
+      <div>
+        <label for="name" class="block text-gray-700 mb-1">Name</label>
+        <input
+          type="text" name="name" id="name" required
+          class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+      <div>
+        <label for="email" class="block text-gray-700 mb-1">Email</label>
+        <input
+          type="email" name="email" id="email" required
+          class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+      <div>
+        <label for="message" class="block text-gray-700 mb-1">Message</label>
+        <textarea
+          name="message" id="message" rows="5" required
+          class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition"
+      >
+        Send Message
+      </button>
+    </form>
+  </div>
 </section>
 
 <%- include('../partials/footer') %>

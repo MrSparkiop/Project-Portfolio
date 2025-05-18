@@ -1,18 +1,17 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 module.exports = {
-  content: ["./views/**/*.ejs", "./public/**/*.{js,css}"],
+  content: ["./views/**/*.ejs","./public/**/*.js"],
   theme: {
     extend: {
       colors: {
-        primary:   "#0ea5e9",  // sky-500
-        secondary: "#10b981",  // emerald-500
-        accent:    "#fcd34d"   // amber-400
+        darknav: "#111827",     // nearly-black nav
+        accent:  "#FBBF24",     // yellow accent
+        softy:   "#FFFBEB"      // light soft background
       },
-      fontFamily: {
-        sans:    ["Inter","sans-serif"],
-        heading: ["Poppins","sans-serif"]
+      backgroundImage: {
+        hero: "linear-gradient(135deg, rgba(255,251,235,1) 0%, rgba(255,243,205,1) 100%)"
       }
     }
   },
   plugins: []
-};
+}

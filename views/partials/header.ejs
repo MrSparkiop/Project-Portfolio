@@ -1,69 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= title %> | My Portfolio</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %> | <%= settings.siteTitle %></title>
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&display=swap"
     rel="stylesheet"
   />
 
-  <!-- Tailwind via CDN (no build step) -->
+  <!-- Tailwind CDN + custom config -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: "#4F46E5",
-            secondary: "#374151",
-            accent: "#EC4899"
+            darknav:   '#111827',
+            accent:    '#FBBF24',
+            softy:     '#FFFBEB',
+            graymuted: '#6B7280'
           },
-          fontFamily: {
-            sans: ["Inter", "sans-serif"],
-            heading: ["Poppins", "sans-serif"]
+          backgroundImage: {
+            hero: "linear-gradient(135deg, rgba(255,255,255,.95) 0%, rgba(255,251,235,.4) 100%)"
           }
         }
       }
     }
   </script>
 </head>
+<body class="font-sans antialiased">
 
-<body class="bg-gray-50 text-gray-900 font-sans">
-  <nav class="bg-white shadow-md">
-    <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
-      <!-- Brand -->
-      <a href="/" class="text-2xl font-heading text-primary hover:text-secondary transition">
-        MyPortfolio
+  <!-- NAVBAR -->
+  <nav class="bg-darknav text-white fixed w-full z-30">
+    <div class="max-w-6xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+
+      <!-- Logo -->
+      <a href="/" class="text-xl font-bold hover:text-accent transition">
+        <%= settings.siteTitle %>
       </a>
 
-      <!-- Only show these when logged in -->
-      <% if (user) { %>
-        <div class="space-x-6 flex items-center">
-          <a href="/secret-admin-123/projects"
-             class="text-secondary hover:text-primary transition">
-            Projects
+      <% if (user && currentPath.startsWith('/secret-admin-123')) { %>
+        <!-- 1) ADMIN PANEL NAV -->
+        <ul class="hidden md:flex space-x-6 items-center">
+          <li><a href="/secret-admin-123/projects" class="hover:text-accent">Projects</a></li>
+          <li><a href="/secret-admin-123/experiences" class="hover:text-accent">Experience</a></li>
+          <li><a href="/secret-admin-123/skills" class="hover:text-accent">Skills</a></li>
+          <li><a href="/secret-admin-123/settings" class="hover:text-accent">Settings</a></li>
+        </ul>
+        <a
+          href="/"
+          class="ml-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition"
+        >
+          View Site
+        </a>
+        <!-- existing Logout button -->
+        <a
+          href="/secret-admin-123/logout"
+          class="ml-2 bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition"
+        >
+          Logout
+        </a>
+
+
+      <% } else if (user) { %>
+        <!-- 2) LOGGED-IN PUBLIC: Admin Panel button -->
+        <a
+          href="/secret-admin-123/projects"
+          class="ml-auto bg-accent text-darknav px-4 py-2 rounded hover:bg-accent/90 transition"
+        >
+          Admin Panel
+        </a>
+
+      <% } else { %>
+        <!-- 3) PUBLIC NAVBAR -->
+        <ul class="hidden md:flex space-x-6 items-center">
+          <li><a href="/" class="hover:text-accent">Home</a></li>
+          <li><a href="#services" class="hover:text-accent">Services</a></li>
+          <li><a href="#courses" class="hover:text-accent">Courses</a></li>
+          <li><a href="#hosting" class="hover:text-accent">Hosting</a></li>
+        </ul>
+
+        <div class="hidden md:flex space-x-4">
+          <a
+            href="<%= settings.resumeUrl %>"
+            download
+            class="flex items-center space-x-2 px-4 py-2 rounded border border-white hover:bg-white hover:text-darknav transition"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    d="M5 20h14v-2H5v2zM5 4h7v5h2V4h7v2h-6v5h-2V6H5V4z"/>
+            </svg>
+            <span>Résumé</span>
           </a>
-          <a href="/secret-admin-123/experiences"
-             class="text-secondary hover:text-primary transition">
-            Experience
-          </a>
-          <a href="/secret-admin-123/skills"
-             class="text-secondary hover:text-primary transition">
-            Skills
-          </a>
-          <a href="/secret-admin-123/logout"
-             class="px-3 py-1 bg-accent text-white rounded-lg shadow hover:bg-accent/90 transition">
-            Logout
+          <a
+            href="#contact"
+            class="bg-accent text-darknav px-4 py-2 rounded hover:bg-accent/90 transition"
+          >
+            Contact
           </a>
         </div>
       <% } %>
+
+      <!-- Mobile toggle -->
+      <button id="nav-toggle" class="md:hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-width="2" stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
     </div>
+
+    <!-- MOBILE MENU -->
+    <div id="nav-menu" class="hidden md:hidden bg-darknav">
+      <ul class="px-4 py-3 space-y-2">
+        <% if (user && currentPath.startsWith('/secret-admin-123')) { %>
+          <li><a href="/secret-admin-123/projects" class="block hover:text-accent">Projects</a></li>
+          <li><a href="/secret-admin-123/experiences" class="block hover:text-accent">Experience</a></li>
+          <li><a href="/secret-admin-123/skills" class="block hover:text-accent">Skills</a></li>
+          <li><a href="/secret-admin-123/settings" class="block hover:text-accent">Settings</a></li>
+          <li><a href="/secret-admin-123/logout" class="block hover:text-accent">Logout</a></li>
+
+        <% } else if (user) { %>
+          <li><a href="/secret-admin-123/projects" class="block hover:text-accent">Admin Panel</a></li>
+
+        <% } else { %>
+          <li><a href="/" class="block hover:text-accent">Home</a></li>
+          <li><a href="#services" class="block hover:text-accent">Services</a></li>
+          <li><a href="#courses" class="block hover:text-accent">Courses</a></li>
+          <li><a href="#hosting" class="block hover:text-accent">Hosting</a></li>
+          <li><a href="<%= settings.resumeUrl %>" download class="block hover:text-accent">Résumé</a></li>
+          <li><a href="#contact" class="block hover:text-accent">Contact</a></li>
+        <% } %>
+      </ul>
+    </div>
+
+    <script>
+      document.getElementById('nav-toggle').onclick = () =>
+        document.getElementById('nav-menu').classList.toggle('hidden');
+    </script>
   </nav>
 
-  <main class="max-w-4xl mx-auto px-6 py-8">
+  <main class="<%= (user && currentPath.startsWith('/secret-admin-123')) ? 'pt-16' : 'pt-20' %>">
