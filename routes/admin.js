@@ -3,6 +3,7 @@ const express = require('express');
 const router  = express.Router();
 const passport = require('passport');
 
+const ContactMessage = require('../models/ContactMessage');
 const Project    = require('../models/Project');
 const Experience = require('../models/Experience');
 const Skill      = require('../models/Skill');
@@ -110,5 +111,33 @@ router.delete('/skills/:id', ensureAuth, async (req, res) => {
   await Skill.findByIdAndDelete(req.params.id);
   res.redirect('/secret-admin-123/skills');
 });
+
+// List all messages
+router.get('/messages', ensureAuth, async (req, res) => {
+  const items = await ContactMessage.find().sort({ createdAt: -1 });
+  res.render('admin/messages', {
+    title: 'Contact Messages',
+    items,
+    includeAOS: false
+  });
+});
+
+// View single message
+router.get('/messages/:id', ensureAuth, async (req, res) => {
+  const item = await ContactMessage.findById(req.params.id);
+  if (!item) return res.redirect('/secret-admin-123/messages');
+  res.render('admin/message_detail', {
+    title: `Message from ${item.name}`,
+    item,
+    includeAOS: false
+  });
+});
+
+// Delete a message
+router.delete('/messages/:id', ensureAuth, async (req, res) => {
+  await ContactMessage.findByIdAndDelete(req.params.id);
+  res.redirect('/secret-admin-123/messages');
+});
+
 
 module.exports = router;

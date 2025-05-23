@@ -6,9 +6,7 @@
   class="bg-hero bg-cover bg-center min-h-[70vh] flex items-center relative"
   data-aos="fade-up"
 >
-  <!-- soft gradient overlay -->
   <div class="absolute inset-0 bg-gradient-to-br from-white/95 via-softy/60 to-softy pointer-events-none"></div>
-
   <div class="relative max-w-6xl mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
     <!-- Text Column -->
     <div data-aos="fade-up">
@@ -154,25 +152,41 @@
 <section id="contact" class="py-16 bg-white" data-aos="fade-up" data-aos-delay="100">
   <div class="max-w-md mx-auto px-4 md:px-6 bg-gray-50 p-8 rounded-lg shadow">
     <h2 class="text-2xl font-semibold text-darknav mb-4 text-center">Get In Touch</h2>
-    <form action="/contact" method="POST" class="space-y-4">
+
+    <!-- AJAX banner placeholder -->
+    <div
+      id="contact-banner"
+      class="hidden mb-6 rounded-lg bg-green-100 border border-green-200 text-green-800 p-4 text-center"
+    ></div>
+
+    <form id="contact-form" action="/contact" method="POST" class="space-y-4">
       <div>
         <label for="name" class="block text-gray-700 mb-1">Name</label>
         <input
-          type="text" name="name" id="name" required
+          type="text"
+          name="name"
+          id="name"
+          required
           class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
       </div>
       <div>
         <label for="email" class="block text-gray-700 mb-1">Email</label>
         <input
-          type="email" name="email" id="email" required
+          type="email"
+          name="email"
+          id="email"
+          required
           class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
       </div>
       <div>
         <label for="message" class="block text-gray-700 mb-1">Message</label>
         <textarea
-          name="message" id="message" rows="5" required
+          name="message"
+          id="message"
+          rows="5"
+          required
           class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         ></textarea>
       </div>
@@ -185,5 +199,31 @@
     </form>
   </div>
 </section>
+
+<script>
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = Array.from(new FormData(form))
+                      .reduce((obj, [key, val]) => (obj[key] = val, obj), {});
+    const res = await fetch(form.action, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    const banner = document.getElementById('contact-banner');
+    if (res.ok) {
+      banner.textContent = '🎉 Thank you! Your message has been sent.';
+      banner.classList.remove('hidden');
+      form.reset();
+    } else {
+      banner.textContent = '❌ Oops—something went wrong.';
+      banner.classList.remove('hidden');
+    }
+  });
+</script>
 
 <%- include('../partials/footer') %>
